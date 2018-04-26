@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TTF Web API Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style>
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #eee;
+        }
+
+        #the-form {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+
+        #the-form .form-heading,
+        #the-form .checkbox {
+            margin-bottom: 10px;
+        }
+
+        #the-form .form-control {
+            position: relative;
+            height: auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        #the-form .form-control:focus {
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <form id="the-form">
+            <h2 class="form-heading">Enter a set of criteria</h2>
+            <div class="form-group">
+                <label for="provider" class="sr-only">Calculation formula</label>
+                <select id="provider" name="provider" class="form-control">
+                    <option value="base" selected="selected">Base</option>
+                    <option value="specialized1">Specialized1</option>
+                    <option value="specialized2">Specialized2</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="a" id="a" checked="checked" value="true" class="checkbox-inline" /><strong>A</strong>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="b" id="b" checked="checked" value="true" class="checkbox-inline" /><strong>B</strong>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" name="c" id="c" checked="checked" value="true" class="checkbox-inline" /><strong>C</strong>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="d">D</label>
+                <input type="text" name="d" id="d" value="75" />
+            </div>
+            <div class="form-group">
+                <label for="e">E</label>
+                <input type="text" name="e" id="e" value="50" />
+            </div>
+            <div class="form-group">
+                <label for="f">F</label>
+                <input type="text" name="f" id="f" value="25" />
+            </div>
+
+            <input type="button" value="Run" class="btn btn-lg btn-primary btn-block run-button" />
+        </form>
+
+        <a href="https://github.com/NightOwl888/TTF#requirements" target="_blank">View Documentation</a>
+
+    </div> <!-- /container -->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+
+            $('.run-button').click(function () {
+
+                var query = $('#the-form').serialize();
+
+                runCalculation(query);
+            });
+
+            function runCalculation(query) {
+                if (query.length > 0) {
+                    query = '?' + query;
+                }
+
+                var r = $.ajax({
+                    type: "GET",
+                    url: "api/v1/foo" + query,
+                    contentType: "application/json",
+                    success: function (response) {
+                        var json = JSON.stringify(response);
+                        alert(json);
+                    },
+                    error: function (response) {
+                        alert(JSON.stringify(response));
+                    }
+
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+
